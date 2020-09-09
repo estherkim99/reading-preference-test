@@ -9,7 +9,14 @@ const Wrapper = styled.div`
     top: calc(50vh - 100px);
     left: 25vw;
     width: 50vw;
-}`
+}
+.result-text {
+    font-size: xx-large
+}
+.result-list {
+    font-size: large
+}
+`
 
 class Question extends Component {
     constructor(props) {
@@ -84,10 +91,23 @@ class Question extends Component {
 
     render() {
         if (this.state.result) {
+            const stats = this.state.stats
+            var statsList = Object.keys(stats).map(function (key) {
+                return [key, stats[key]];
+            });
+            statsList.sort(function (first, second) {
+                return second[1] - first[1];
+            });
+
             return (
                 <Wrapper >
                     <div class='container'>
-                        <p>{this.state.result}</p>
+                        <h1 class='result-text'>당신의 독서 스타일은?</h1>
+                        <ol>
+                            <li>{statsList[0][0]}</li>
+                            <li>{statsList[1][0]}</li>
+                            <li>{statsList[2][0]}</li>
+                        </ol>
                     </div>
                 </Wrapper>
             )
@@ -96,14 +116,14 @@ class Question extends Component {
             return (
                 <Wrapper>
                     <div class='container'>
-                    <SingleQuestion
-                        answerText={this.state.answerText}
-                        answerOptions={this.state.answerOptions}
-                        questionIndex={this.state.questionIndex}
-                        questionText={this.state.questionText}
-                        questionTotal={content.length}
-                        onAnswerSelect={this.handleAnswerSelect}
-                    />
+                        <SingleQuestion
+                            answerText={this.state.answerText}
+                            answerOptions={this.state.answerOptions}
+                            questionIndex={this.state.questionIndex}
+                            questionText={this.state.questionText}
+                            questionTotal={content.length}
+                            onAnswerSelect={this.handleAnswerSelect}
+                        />
                     </div>
                 </Wrapper>
             )
